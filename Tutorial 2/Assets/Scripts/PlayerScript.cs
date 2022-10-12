@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     private Rigidbody2D rd2d;
+    public float speed;
 
     void Start()
     {
@@ -16,6 +17,6 @@ public class PlayerScript : MonoBehaviour
         float hozMovement = Input.GetAxis("Horizontal");
         float verMovement = Input.GetAxis("Vertical");
 
-        rd2d.AddForce(new Vector2(hozMovement, verMovement));
+        rd2d.AddForce(new Vector2(hozMovement * speed, verMovement * speed));
     }
 }
