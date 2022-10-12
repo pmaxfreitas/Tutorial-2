@@ -16,6 +16,14 @@ public class PlayerScript : MonoBehaviour
         score.text = scoreValue.ToString();
     }
 
+    void Update()
+    {
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     void FixedUpdate()
     {
         float hozMovement = Input.GetAxis("Horizontal");
