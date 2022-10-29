@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public Text score;
     private int scoreValue = 0;
+    public GameObject canvas;
 
     void Start()
     {
@@ -39,6 +40,17 @@ public class PlayerScript : MonoBehaviour
             scoreValue += 1;
             score.text = scoreValue.ToString();
             Destroy(collision.collider.gameObject);
+        }
+
+        if(scoreValue == 4)
+        {
+            canvas.GetComponent<HorizontalLayoutGroup>().enabled = false;
+            score.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
+            score.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
+            score.transform.position = new Vector2(0.0f, 0.0f);
+            score.fontSize = 30;
+            score.alignment = TextAnchor.MiddleCenter;
+            score.text = "You Win! \n Made by Max Freitas";
         }
     }
 
