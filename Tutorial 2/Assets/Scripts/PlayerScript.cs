@@ -9,10 +9,11 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public Text score;
     private int scoreValue = 0;
-    public GameObject canvas;
+    private GameObject canvas;
 
     void Start()
     {
+        canvas = GameObject.Find("Canvas");
         rd2d = GetComponent<Rigidbody2D>();
         score.text = scoreValue.ToString();
     }
@@ -44,13 +45,13 @@ public class PlayerScript : MonoBehaviour
 
         if(scoreValue == 4)
         {
-            canvas.GetComponent<HorizontalLayoutGroup>().enabled = false;
-            score.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
-            score.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
-            score.transform.position = new Vector2(0.0f, 0.0f);
+            canvas.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
+            canvas.GetComponent<HorizontalLayoutGroup>().padding.left = 0;
+            canvas.GetComponent<HorizontalLayoutGroup>().padding.top = 0;
+
             score.fontSize = 30;
             score.alignment = TextAnchor.MiddleCenter;
-            score.text = "You Win! \n Made by Max Freitas";
+            score.text = "You Win! \nMade by Max Freitas";
         }
     }
 
