@@ -15,6 +15,12 @@ public class PlayerScript : MonoBehaviour
     public AudioClip bgMusic;
     public AudioClip winMusic;
     public AudioSource source;
+    private Animator anim;
+    private bool facingRight = true;
+    private bool isOnGround;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask allGround;
 
     void Start()
     {
@@ -26,10 +32,28 @@ public class PlayerScript : MonoBehaviour
 
         source.clip = bgMusic;
         source.Play();
+
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
+        if(isOnGround == true)
+        {
+            if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+            {
+                anim.SetInteger("State", 1);
+            }
+            else
+            {
+                anim.SetInteger("State", 0);
+            }
+        }
+        else if(isOnGround == false)
+        {
+            anim.SetInteger("State", 2);
+        }
+
         if(Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -42,6 +66,17 @@ public class PlayerScript : MonoBehaviour
         float verMovement = Input.GetAxis("Vertical");
 
         rd2d.AddForce(new Vector2(hozMovement * speed, verMovement * speed));
+
+        if (facingRight == false && hozMovement > 0)
+        {
+            Flip();
+        }
+        else if (facingRight == true && hozMovement < 0)
+        {
+            Flip();
+        }
+
+        isOnGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, allGround);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -97,14 +132,22 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Floor")
+        if (collision.collider.tag == "Floor" && isOnGround)
         {
-            if(Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W))
             {
                 rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
             }
         }
     }
+
+    void Flip()
+   {
+     facingRight = !facingRight;
+     Vector2 Scaler = transform.localScale;
+     Scaler.x = Scaler.x * -1;
+     transform.localScale = Scaler;
+   }
 }
