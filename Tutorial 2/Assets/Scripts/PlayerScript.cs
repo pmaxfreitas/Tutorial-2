@@ -10,12 +10,16 @@ public class PlayerScript : MonoBehaviour
     public Text score;
     private int scoreValue = 0;
     private GameObject canvas;
+    public Text lives;
+    private int livesValue = 3;
 
     void Start()
     {
         canvas = GameObject.Find("Canvas");
         rd2d = GetComponent<Rigidbody2D>();
-        score.text = scoreValue.ToString();
+        
+        score.text = "Score: " + scoreValue.ToString();
+        lives.text = "Lives: " + livesValue.ToString();
     }
 
     void Update()
@@ -39,19 +43,48 @@ public class PlayerScript : MonoBehaviour
         if(collision.collider.tag == "Coin")
         {
             scoreValue += 1;
-            score.text = scoreValue.ToString();
+            score.text = "Score: " + scoreValue.ToString();
             Destroy(collision.collider.gameObject);
-        }
 
-        if(scoreValue == 4)
-        {
+            if(scoreValue == 4)
+            {
+            transform.position = new Vector2(20, 0);
+            livesValue = 3;
+            lives.text = "Lives: " + livesValue.ToString();
+            }
+
+            if(scoreValue == 8)
+            {
             canvas.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
-            canvas.GetComponent<HorizontalLayoutGroup>().padding.left = 0;
             canvas.GetComponent<HorizontalLayoutGroup>().padding.top = 0;
+
+            Destroy(GameObject.Find("Lives"));
 
             score.fontSize = 30;
             score.alignment = TextAnchor.MiddleCenter;
             score.text = "You Win! \nGame Created by Max Freitas";
+            }
+        }
+
+        if(collision.collider.tag == "enemy")
+        {
+            livesValue--;
+            lives.text = "Lives: " + livesValue.ToString();
+
+            Destroy(collision.collider.gameObject);
+
+            if(livesValue == 0)
+            {
+            canvas.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
+            canvas.GetComponent<HorizontalLayoutGroup>().padding.top = 0;
+
+            Destroy(GameObject.Find("Score"));
+            Destroy(this);
+
+            lives.fontSize = 30;
+            lives.alignment = TextAnchor.MiddleCenter;
+            lives.text = "You Lose!";
+            }
         }
     }
 
