@@ -12,6 +12,9 @@ public class PlayerScript : MonoBehaviour
     private GameObject canvas;
     public Text lives;
     private int livesValue = 3;
+    public AudioClip bgMusic;
+    public AudioClip winMusic;
+    public AudioSource source;
 
     void Start()
     {
@@ -20,6 +23,9 @@ public class PlayerScript : MonoBehaviour
         
         score.text = "Score: " + scoreValue.ToString();
         lives.text = "Lives: " + livesValue.ToString();
+
+        source.clip = bgMusic;
+        source.Play();
     }
 
     void Update()
@@ -63,6 +69,9 @@ public class PlayerScript : MonoBehaviour
             score.fontSize = 30;
             score.alignment = TextAnchor.MiddleCenter;
             score.text = "You Win! \nGame Created by Max Freitas";
+
+            source.clip = winMusic;
+            source.Play();
             }
         }
 
