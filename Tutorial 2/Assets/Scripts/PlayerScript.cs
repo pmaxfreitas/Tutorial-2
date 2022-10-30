@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
 
             score.fontSize = 30;
             score.alignment = TextAnchor.MiddleCenter;
-            score.text = "You Win! \nMade by Max Freitas";
+            score.text = "You Win! \nGame Created by Max Freitas";
         }
     }
 
