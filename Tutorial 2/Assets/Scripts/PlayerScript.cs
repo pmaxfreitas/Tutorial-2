@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -52,6 +53,15 @@ public class PlayerScript : MonoBehaviour
         else if(isOnGround == false)
         {
             anim.SetInteger("State", 2);
+        }
+
+        if(transform.position.y < -5 && 0 <= scoreValue && scoreValue <= 3)
+        {
+            transform.position = new Vector2(-8, 0);
+        }
+        else if(transform.position.y < -5 && 4 <= scoreValue && scoreValue <= 8)
+        {
+            transform.position = new Vector2(20, 0);
         }
 
         if(Input.GetKey(KeyCode.Escape))
@@ -123,6 +133,7 @@ public class PlayerScript : MonoBehaviour
             canvas.GetComponent<HorizontalLayoutGroup>().padding.top = 0;
 
             Destroy(GameObject.Find("Score"));
+            anim.SetInteger("State", 3);
             Destroy(this);
 
             lives.fontSize = 30;
